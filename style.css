@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+  background-color: lightgray;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+#all {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: system-ui;
+  height: 100vh;
+  width: 100vw;
+}
+#main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  visibility: hidden;
+}
+#map {
+  border: 7px solid black;
+  border-radius: 15px;
+  width: 85vw;
+  height: 75vh;
+}
+#menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100px;
+  position: absolute;
+}
+#start_btn {
+  border-radius: 10px;
+  font-size: 25px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #95bdf4;
+  border: 4px solid black;
+}
+#opis {
+  font-size: 20px;
+  text-align: center;
+}
+.serca {
+  position: absolute;
+  left: 200px;
+  top: 75px;
+  font-size: 45px;
+}
+.punkty {
+  position: absolute;
+  right: 200px;
+  top: 90px;
+  font-size: 35px;
+}
+.wylosowany_kraj {
+  font-size: 35px;
+}
