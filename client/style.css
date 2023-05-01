@@ -61,10 +61,11 @@ body {
   background-color: #e3e3e4;
 }
 #pytanie {
+  width: 90vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 220px;
+  gap: 190px;
   flex-direction: row;
 }
 #opis {
@@ -78,7 +79,7 @@ body {
   font-size: 35px;
 }
 .wylosowany_kraj {
-  font-size: 45px;
+  font-size: 30px;
 }
 /*popup okienko*/
 .popup_1 {

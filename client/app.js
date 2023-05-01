@@ -1,4 +1,4 @@
-//! globalne zmienne
+//!glowne zmienne
 var wylosowany_kraj,
   serca_text = "❤❤❤❤❤",
   punkty_text = 0
@@ -136,4 +136,6 @@ function back_to_start() {
   main.style.visibility = "hidden"
   menu.style.visibility = "visible"
   pytanie.innerHTML = ""
+  serca_text = "❤❤❤❤❤"
+  punkty_text = 0
 }
