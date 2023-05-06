@@ -15,10 +15,11 @@ var map = L.map("map", { minZoom: 3, zoomSnap: 0.25 }).setView([36.3830913875930
 //zrodlo mapy
 L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  className: "mapa",
 }).addTo(map)
 
 function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
-  map.setView([36.38309138759306, 22.3209691411363], 3)
+  close_game_over_okno()
 
   //! losowanie liczb
   //stworzenie tablicy aaa o dlugosci liczby kraji/stanow
@@ -33,7 +34,15 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
 
   wylosowany_kraj = zrodlo.features[ranNums.next().value].properties.NAME
 
-  //budowanie elementow pokazujacych informacje funkcja linia 103
+  //! budowanie elementow DOM
+  function zbuduj_element(name, typ, text, klasa, onclick) {
+    name = document.createElement(typ)
+    name.classList.add(klasa)
+    if (text != null) name.innerHTML = text
+    if (onclick != null) name.setAttribute("onclick", `${onclick}`)
+    pytanie.appendChild(name)
+  }
+  //?budowanie elementow pokazujacych informacje funkcja
   var back_btn
   zbuduj_element(back_btn, "button", "back to start", "start_btn", "back_to_start()")
 
@@ -48,41 +57,45 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
 
   //! dodanie do mapy krajow i kontrola co sie dzieje przy "eventach" myszki
   var geojson
-  //co sie stanie po kliknieciu na kraj
+  //?co sie stanie po kliknieciu na kraj
   function zoomToFeature(e) {
+    //poprawna odpowiedz
     if (wylosowany_kraj == e.target.feature.properties.NAME) {
-      openPopup_1("✅correct guess!✅")
+      open_alert_okno("✅correct guess!✅")
       punkty_text++
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     } else {
-      openPopup_1("❌you didn't guess it❌")
+      //test czy sa jescze zycia
       if (serca_text.length == 1) {
-        openPopup_1("you lost 😭! don't worry, you can try again ")
+        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
         serca_text = "❤❤❤❤❤❤"
         punkty_text = 0
+        return
       }
+      //niepoprawna odp
+      open_alert_okno("❌you didn't guess it❌")
       serca_text = serca_text.slice(0, -1)
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     }
   }
-  //co sie stanie po wyjachaniu z kraju myszka
+  //?co sie stanie po wyjachaniu z kraju myszka
   function resetHighlight(e) {
     geojson.resetStyle(e.target)
   }
-  // co sie stanie po najechaniu na kraj
+  //? co sie stanie po najechaniu na kraj
   function highlightFeature(e) {
     var layer = e.target
     //ustawia styl
     layer.setStyle({
-      weight: 5,
-      color: "#666",
+      weight: 3,
+      color: "#37b8dd",
       dashArray: "",
-      fillOpacity: 0.7,
+      fillOpacity: 0.15,
     })
 
     layer.bringToFront()
   }
-  //dopisanie funkcji do eventow
+  //?dopisanie funkcji do eventow
   function onEachFeature(feature, layer) {
     layer.on({
       mouseover: highlightFeature,
@@ -90,33 +103,42 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
       click: zoomToFeature,
     })
   }
-  //usuwanie starej warstwy geojsona
+  //?usuwanie starej warstwy geojsona
   map.eachLayer(function (layer) {
     if (layer instanceof L.Polygon) layer.remove()
   })
-  //dodawnie do mapy
+  //?dodawnie do mapy
   geojson = L.geoJson(zrodlo, {
-    style: { color: "#757678" },
+    style: { color: "#FFFFFF" },
     onEachFeature: onEachFeature,
   }).addTo(map)
 }
-//! budowanie elementow DOM
-function zbuduj_element(name, typ, text, klasa, onclick) {
-  name = document.createElement(typ)
-  name.classList.add(klasa)
-  if (text != null) name.innerHTML = text
-  if (onclick != null) name.setAttribute("onclick", `${onclick}`)
-  pytanie.appendChild(name)
-}
+
 //!popup okienko
-function openPopup_1(err_msg) {
-  popup_1.classList.add("open-popup_1")
-  body.style.overflowY = "hidden"
+//? kod do "alert_okno"
+const okno = document.getElementById("alert_okno")
+
+function open_alert_okno(err_msg) {
+  okno.showModal()
   err.innerHTML = err_msg
 }
-function closePopup_1() {
-  popup_1.classList.remove("open-popup_1")
-  body.style.overflowY = "auto"
+function close_alert_okno() {
+  okno.close()
+}
+//? kod do "game_over_okno"
+const game_over_okno = document.getElementById("game_over_okno")
+const country = document.getElementById("country_game_over")
+const score = document.getElementById("score_game_over")
+
+function open_game_over_okno(err_msg, score_int) {
+  main.style.visibility = "hidden"
+  pytanie.innerHTML = ""
+  country.innerHTML = err_msg
+  score.innerHTML = score_int
+  game_over_okno.showModal()
+}
+function close_game_over_okno() {
+  game_over_okno.close()
 }
 //!funkcja losujaca
 //zwraca kolejne losowe liczby bez powtorzen
@@ -127,12 +149,26 @@ function* shuffle(tablica) {
   }
 }
 //! wybor trybu gry, ustawienie zrodla geojson i liczby kraji/stanow
+//kordy standardowego widoku mapy dla kazdego trybu gry
+const europa_view = [35.43811453375265, 21.054874361484423]
+const all_view = [35.43811453375265, 21.054874361484423]
+const states_view = [38.0543791860248, -100.89195250492425]
+
 function wybor(wybor) {
-  if (wybor == "europa") pokaz_europa(europa, 44)
-  else if (wybor == "all") pokaz_europa(kraje_all, 195)
-  else pokaz_europa(states, 50)
+  if (wybor == "europa") {
+    pokaz_europa(europa, 44)
+    map.setView(europa_view, 3)
+  } else if (wybor == "all") {
+    pokaz_europa(kraje_all, 195)
+    map.setView(all_view, 3)
+  } else if (wybor == "states") {
+    pokaz_europa(states, 50)
+    map.setView(states_view, 3)
+  }
 }
+//! wroc do menu funckja
 function back_to_start() {
+  close_game_over_okno()
   main.style.visibility = "hidden"
   menu.style.visibility = "visible"
   pytanie.innerHTML = ""
