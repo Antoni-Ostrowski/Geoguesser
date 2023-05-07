@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoguesser</title>
+    <title>Geoguesser</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
@@ -22,16 +22,17 @@
           You are going to see country name and <br />
           your job is to guess where the country/state is located, ready?
         </p>
-        <section>
+        <section style="display: flex; gap: 35px">
           <button class="start_btn" onclick="wybor('europa')">START (europe)</button>
           <button class="start_btn" onclick="wybor('all')">START (all countries)</button>
           <button class="start_btn" onclick="wybor('states')">START (us states)</button>
         </section>
       </div>
+
       <dialog id="alert_okno">
-        <div class="inside_popup_1" style="width: 22vw; height: 22vh">
+        <div class="inside_popup_1" id="inside_alert_okno">
           <h1 id="err"></h1>
-          <button class="ok_btn popup_btn" onclick="close_alert_okno()">OK</button>
+          <button class="start_btn ok_btn" onclick="close_alert_okno()">OK</button>
         </div>
       </dialog>
 
@@ -50,7 +51,7 @@
               <button class="start_btn" onclick="back_to_start()">back to start</button>
             </section>
 
-            <section>
+            <section id="Try again, choose game mode, guziki">
               <h1>Try again, choose game mode</h1>
               <div class="tryby_gry_game_over">
                 <button class="start_btn" onclick="wybor('europa')">START (europe)</button>

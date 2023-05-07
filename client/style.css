@@ -1,19 +1,24 @@
 body {
   margin: 0;
   box-sizing: border-box;
-  background-color: lightgray;
   overflow-x: hidden;
   overflow-y: hidden;
+  scroll-behavior: smooth;
 }
 :root {
+  /* kit do ciemnego wygladu mapy */
   --map_kit: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
-  --font: whitesmoke;
+  /* --blue: #37b8dd; */
+  --white: whitesmoke;
+  --bg_color: rgba(0, 0, 0, 0.884);
+  --hover: #feff01;
 }
+/* ogromne divy */
 .mapa {
   filter: var(--map_kit);
 }
 #all {
-  background-color: rgba(0, 0, 0, 0.878);
+  background-color: var(--bg_color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,17 +28,17 @@ body {
   width: 100vw;
 }
 #main {
-  z-index: 0;
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  gap: 35px;
   visibility: hidden;
 }
 #map {
-  border: 7px solid var(--font);
+  border: 8px solid var(--white);
   border-radius: 15px;
   width: 85vw;
   height: 75vh;
@@ -43,14 +48,23 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100px;
+  gap: 50px;
+  width: 50vw;
   position: absolute;
 }
-#title {
-  font-size: 50px;
-  letter-spacing: 3px;
-  color: var(--font);
+/* ekran startowy, powitanie */
+#opis {
+  font-size: 25px;
+  text-align: center;
+  color: var(--white);
 }
+#title {
+  font-size: 90px;
+  letter-spacing: 4px;
+  color: var(--white);
+  margin: 0px;
+}
+/* wyglad wiekszosci guzikow */
 .start_btn {
   height: 60px;
   width: 250px;
@@ -58,15 +72,18 @@ body {
   font-size: 22px;
   padding: 5px;
   cursor: pointer;
-  background-color: var(--font);
-  border: 5px solid #37b8dd;
+  background-color: #0000;
+  color: var(--white);
+  border: 5px solid var(--white);
   font-family: system-ui;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: color 0.4s ease, border 0.4s ease;
 }
 .start_btn:hover {
-  background-color: var(--font);
+  color: var(--hover);
+  border: 5px solid var(--hover);
 }
+/* wyglad div "pytanie" czyli statystyki */
 #pytanie {
   width: 90vw;
   display: flex;
@@ -75,29 +92,24 @@ body {
   gap: 190px;
   flex-direction: row;
 }
-#opis {
-  font-size: 25px;
-  text-align: center;
-  color: var(--font);
-}
 .serca {
   font-size: 45px;
-  color: var(--font);
+  color: var(--white);
 }
 .punkty {
   font-size: 35px;
-  color: var(--font);
+  color: var(--white);
 }
 .wylosowany_kraj {
   font-size: 30px;
-  color: var(--font);
+  color: var(--white);
 }
 /* glowne rzeczy do okienek */
 .inside_popup_1 {
   background-color: rgba(0, 0, 0, 0.864);
   color: white;
   border-radius: 20px;
-  border: 6px solid #37b8dd;
+  border: 6px solid var(--white);
   font-family: system-ui;
   display: flex;
   justify-content: center;
@@ -105,18 +117,9 @@ body {
   text-align: center;
   flex-direction: column;
 }
-.popup_btn {
-  font-family: system-ui;
-  font-size: 30px;
-  padding-left: 15px;
-  padding-right: 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 3.6px solid black;
-  box-shadow: 0px 0px 1px 1px;
-}
+
 .ok_btn {
-  background-color: lightgreen;
+  width: 90px;
 }
 /*popup alert okno*/
 #alert_okno {
@@ -159,4 +162,8 @@ body {
   position: absolute;
   top: 60px;
   font-size: 60px;
+}
+#inside_alert_okno {
+  width: 22vw;
+  height: 22vh;
 }

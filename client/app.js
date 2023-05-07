@@ -1,4 +1,8 @@
 //!glowne zmienne
+//?kordy standardowego widoku mapy dla kazdego trybu gry, uzyte linijka 30 i 166 funckja wybor
+const europa_view = [35.43811453375265, 21.054874361484423],
+  all_view = [35.43811453375265, 21.054874361484423],
+  states_view = [38.0543791860248, -100.89195250492425]
 var wylosowany_kraj,
   serca_text = "❤❤❤❤❤",
   punkty_text = 0
@@ -17,9 +21,16 @@ L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   className: "mapa",
 }).addTo(map)
-
+//! wczytywanie liczby serc, punktow, pokazanie mapy, stats i  ukrycie ekranu startowego
 function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   close_game_over_okno()
+
+  //ustawienie widoku pod kazdy game mode, kazdy ma inna dlugosc tak je rozpoznuje
+  var dlugosc = zrodlo.features.length
+
+  if (dlugosc == 51) map.setView(europa_view, 3)
+  else if (dlugosc == 255) map.setView(all_view, 3)
+  else if (dlugosc == 50) map.setView(states_view, 3)
 
   //! losowanie liczb
   //stworzenie tablicy aaa o dlugosci liczby kraji/stanow
@@ -27,7 +38,6 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   for (var i = 0; i <= wskazana_liczba_kraji; i++) aaa.push(i)
   //funckja shuffle linia 122
   var ranNums = shuffle(aaa)
-  //! wczytywanie liczby serc, punktow, pokazanie mapy ukrycie ekranu startowego
   main.style.visibility = "visible"
   menu.style.visibility = "hidden"
   pytanie.innerHTML = ""
@@ -42,7 +52,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     if (onclick != null) name.setAttribute("onclick", `${onclick}`)
     pytanie.appendChild(name)
   }
-  //?budowanie elementow pokazujacych informacje funkcja
+  //?budowanie elementow pokazujacych informacje
   var back_btn
   zbuduj_element(back_btn, "button", "back to start", "start_btn", "back_to_start()")
 
@@ -65,10 +75,10 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
       punkty_text++
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     } else {
-      //test czy sa jescze zycia
+      //test czy sa jeszcze zycia
       if (serca_text.length == 1) {
         open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
-        serca_text = "❤❤❤❤❤❤"
+        serca_text = "❤❤❤❤❤"
         punkty_text = 0
         return
       }
@@ -88,7 +98,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     //ustawia styl
     layer.setStyle({
       weight: 3,
-      color: "#37b8dd",
+      color: "#feff01",
       dashArray: "",
       fillOpacity: 0.15,
     })
@@ -117,10 +127,14 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
 //!popup okienko
 //? kod do "alert_okno"
 const okno = document.getElementById("alert_okno")
-
+const inside = document.getElementById("inside_alert_okno").style
+//? funckje do "alert_okno"
 function open_alert_okno(err_msg) {
+  //show modal pokazuje alert na stronie
   okno.showModal()
   err.innerHTML = err_msg
+  //kolorowanie ramki alertu okno
+  err_msg == "✅correct guess!✅" ? (inside.borderColor = "lightgreen") : (inside.borderColor = "red")
 }
 function close_alert_okno() {
   okno.close()
@@ -129,7 +143,7 @@ function close_alert_okno() {
 const game_over_okno = document.getElementById("game_over_okno")
 const country = document.getElementById("country_game_over")
 const score = document.getElementById("score_game_over")
-
+//? funckje do "game_over_okno"
 function open_game_over_okno(err_msg, score_int) {
   main.style.visibility = "hidden"
   pytanie.innerHTML = ""
@@ -149,10 +163,6 @@ function* shuffle(tablica) {
   }
 }
 //! wybor trybu gry, ustawienie zrodla geojson i liczby kraji/stanow
-//kordy standardowego widoku mapy dla kazdego trybu gry
-const europa_view = [35.43811453375265, 21.054874361484423]
-const all_view = [35.43811453375265, 21.054874361484423]
-const states_view = [38.0543791860248, -100.89195250492425]
 
 function wybor(wybor) {
   if (wybor == "europa") {
