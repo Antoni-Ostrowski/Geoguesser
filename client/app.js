@@ -2,7 +2,8 @@
 //?kordy standardowego widoku mapy dla kazdego trybu gry, uzyte linijka 30 i 166 funckja wybor
 const europa_view = [35.43811453375265, 21.054874361484423],
   all_view = [35.43811453375265, 21.054874361484423],
-  states_view = [38.0543791860248, -100.89195250492425]
+  states_view = [38.0543791860248, -100.89195250492425],
+  wojewodztwa_view = [52.39303121429481, 20.38909401093015]
 var wylosowany_kraj,
   serca_text = "❤❤❤❤❤",
   punkty_text = 0
@@ -31,6 +32,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   if (dlugosc == 51) map.setView(europa_view, 3)
   else if (dlugosc == 255) map.setView(all_view, 3)
   else if (dlugosc == 50) map.setView(states_view, 3)
+  else if (dlugosc == 16) map.setView(wojewodztwa_view, 6)
 
   //! losowanie liczb
   //stworzenie tablicy aaa o dlugosci liczby kraji/stanow
@@ -174,6 +176,9 @@ function wybor(wybor) {
   } else if (wybor == "states") {
     pokaz_europa(states, 50)
     map.setView(states_view, 3)
+  } else if (wybor == "wojewodztwa") {
+    pokaz_europa(wojewodztwa, 16)
+    map.setView(wojewodztwa_view, 6)
   }
 }
 //! wroc do menu funckja
