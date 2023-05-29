@@ -22,29 +22,40 @@ L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   className: "mapa",
 }).addTo(map)
-//! wczytywanie liczby serc, punktow, pokazanie mapy, stats i  ukrycie ekranu startowego
+
 function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
-  close_game_over_okno()
+  var index = Math.floor(Math.random() * wskazana_liczba_kraji)
+  console.log(index)
+
+  // if (aaa.length == 0) {
+  //   console.log("koniec")
+  //   aaa = []
+  // }
+  // if (aaa.length >= 1) {
+  //   console.log("dziala")
+  // } else {
+  //   console.log("koniec")
+  // }
+  wylosowany_kraj = zrodlo.features[index].properties.NAME
+
+  console.log(zrodlo.features[index])
+  zrodlo.features.splice(index, 1)
 
   //ustawienie widoku pod kazdy game mode, kazdy ma inna dlugosc tak je rozpoznuje
-  var dlugosc = zrodlo.features.length
-
-  if (dlugosc == 51) map.setView(europa_view, 3)
-  else if (dlugosc == 255) map.setView(all_view, 3)
-  else if (dlugosc == 50) map.setView(states_view, 3)
-  else if (dlugosc == 16) map.setView(wojewodztwa_view, 6)
-
-  //! losowanie liczb
-  //stworzenie tablicy aaa o dlugosci liczby kraji/stanow
-  var aaa = []
-  for (var i = 0; i <= wskazana_liczba_kraji; i++) aaa.push(i)
-  //funckja shuffle linia 122
-  var ranNums = shuffle(aaa)
+  close_game_over_okno()
   main.style.visibility = "visible"
   menu.style.visibility = "hidden"
   pytanie.innerHTML = ""
+  if (wskazana_liczba_kraji == 51) map.setView(europa_view, 3)
+  else if (wskazana_liczba_kraji == 255) map.setView(all_view, 3)
+  else if (wskazana_liczba_kraji == 50) map.setView(states_view, 3)
+  else if (wskazana_liczba_kraji == 16) map.setView(wojewodztwa_view, 6)
 
-  wylosowany_kraj = zrodlo.features[ranNums.next().value].properties.NAME
+  //! losowanie liczb
+  //stworzenie tablicy aaa o dlugosci liczby kraji/stanow
+  //var index = math.floor(math.random()*aaa.length
+  //var item = aaa[index]
+  //aaa.splice(index, 1)
 
   //! budowanie elementow DOM
   function zbuduj_element(name, typ, text, klasa, onclick) {
@@ -78,12 +89,12 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     } else {
       //test czy sa jeszcze zycia
-      if (serca_text.length == 1) {
-        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
-        serca_text = "❤❤❤❤❤"
-        punkty_text = 0
-        return
-      }
+      // if (serca_text.length == 1) {
+      //   open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
+      //   serca_text = "❤❤❤❤❤"
+      //   punkty_text = 0
+      //   return
+      // }
       //niepoprawna odp
       open_alert_okno("❌you didn't guess it❌")
       serca_text = serca_text.slice(0, -1)
@@ -168,10 +179,10 @@ function* shuffle(tablica) {
 
 function wybor(wybor) {
   if (wybor == "europa") {
-    pokaz_europa(europa, 44)
+    pokaz_europa(europa, 51)
     map.setView(europa_view, 3)
   } else if (wybor == "all") {
-    pokaz_europa(kraje_all, 195)
+    pokaz_europa(kraje_all, 255)
     map.setView(all_view, 3)
   } else if (wybor == "states") {
     pokaz_europa(states, 50)
