@@ -13,7 +13,6 @@ body {
   --bg_color: rgba(0, 0, 0, 0.884);
   --hover: #feff01;
 }
-/* ogromne divy */
 
 #all {
   background-color: var(--bg_color);
@@ -35,6 +34,24 @@ body {
   gap: 35px;
   visibility: hidden;
 
+  .mapa {
+    filter: var(--map_kit);
+  }
+
+  #map {
+    border: 8px solid var(--white);
+    border-radius: 15px;
+    width: 85vw;
+    height: 75vh;
+  }
+  #map2 {
+    border: 8px solid var(--white);
+    border-radius: 15px;
+    width: 85vw;
+    height: 75vh;
+    display: none;
+  }
+
   #pytanie {
     width: 90vw;
     display: flex;
@@ -54,17 +71,6 @@ body {
     .wylosowany_kraj {
       font-size: 30px;
       color: var(--white);
-    }
-  }
-
-  #map {
-    border: 8px solid var(--white);
-    border-radius: 15px;
-    width: 85vw;
-    height: 75vh;
-
-    .mapa {
-      filter: var(--map_kit);
     }
   }
 }
@@ -90,9 +96,7 @@ body {
     margin: 0px;
   }
 }
-/* ekran startowy, powitanie */
 
-/* wyglad wiekszosci guzikow */
 .start_btn {
   height: 60px;
   width: 250px;
@@ -105,37 +109,33 @@ body {
   border: 5px solid var(--white);
   font-family: system-ui;
   font-weight: bold;
-  transition: color 0.4s ease, border 0.4s ease;
+  transition: color ease, border ease;
 }
 .start_btn:hover {
   color: var(--hover);
   border: 5px solid var(--hover);
 }
-/* wyglad div "pytanie" czyli statystyki */
 
-/* glowne rzeczy do okienek */
+.inside_popup_1 {
+  background-color: rgba(0, 0, 0, 0.864);
+  color: white;
+  border-radius: 20px;
+  border: 6px solid var(--white);
+  font-family: system-ui;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
 
+.ok_btn {
+  width: 90px;
+}
 /*popup alert okno*/
 #alert_okno {
   background-color: #0000;
   border: 0px;
-
-  .inside_popup_1 {
-    background-color: rgba(0, 0, 0, 0.864);
-    color: white;
-    border-radius: 20px;
-    border: 6px solid var(--white);
-    font-family: system-ui;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-  }
-
-  .ok_btn {
-    width: 90px;
-  }
 }
 /* game over popup */
 #game_over_okno {
@@ -179,3 +179,19 @@ body {
     height: 22vh;
   }
 }
+/* easeter egg */
+/* #okno_easter_egg {
+  background-color: rgba(0, 0, 0, 0.864);
+  color: white;
+  border-radius: 20px;
+  border: 6px solid var(--white);
+  font-family: system-ui;
+  width: 60vw;
+  height: 50vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+} */

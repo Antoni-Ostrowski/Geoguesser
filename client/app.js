@@ -23,47 +23,76 @@ L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   className: "mapa",
 }).addTo(map)
 
-var zakazane_indexy = []
-function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
-  var index = Math.floor(Math.random() * wskazana_liczba_kraji)
-  // console.log(index)
+//! druga mapa do odp poprawnych
+//deklaracja mapy i deklaracja wyskakujacego okienka
+var map2 = L.map("map2", { minZoom: 3, zoomSnap: 0.25 }).setView([36.38309138759306, 22.3209691411363], 4),
+  popup2 = L.popup()
+//zrodlo mapy
+L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
+  attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  className: "mapa",
+}).addTo(map2)
 
-  for (var i = 0; i <= zakazane_indexy.length - 1; i++) {
-    if (zakazane_indexy[i] == index) {
-      index = Math.floor(Math.random() * wskazana_liczba_kraji)
-    }
+// function pokaz_pop_odp(zrodlo, kraj_cel) {
+//   document.getElementById("map").style.display = "none"
+//   pytanie.style.display = "none"
+//   document.getElementById("map2").style.display = "block"
+
+//   for (let i = 0; i <= zrodlo.features.length - 1; i++) {
+//     var kraj = zrodlo.features[i]
+
+//     if (kraj.properties.NAME == kraj_cel) {
+//       var mapkraj = L.geoJSON(kraj, { color: "green" }).addTo(map2)
+//     } else {
+//       var mapkraj = L.geoJSON(kraj, { color: "whitesmoke" }).addTo(map2)
+//     }
+//   }
+// }
+
+//! wczytywanie liczby serc, punktow, pokazanie mapy, stats i  ukrycie ekranu startowego
+
+function* shuffle(tablica) {
+  var i = tablica.length
+  while (i--) {
+    yield tablica.splice(Math.floor(Math.random() * (i + 1)), 1)[0]
   }
-  if (zakazane_indexy.length - 1 == wskazana_liczba_kraji) console.log("koniec")
-  // if (aaa.length == 0) {
-  //   console.log("koniec")
-  //   aaa = []
-  // }
-  // if (aaa.length >= 1) {
-  //   console.log("dziala")
-  // } else {
-  //   console.log("koniec")
-  // }
-  wylosowany_kraj = zrodlo.features[index].properties.NAME
-  zakazane_indexy.push(index)
-  console.log(`zakazane indexy  ${zakazane_indexy}`)
-  // console.log(zrodlo.features[index])
+}
 
-  //ustawienie widoku pod kazdy game mode, kazdy ma inna dlugosc tak je rozpoznuje
+var aaa = []
+var ranNums = shuffle(aaa)
+
+function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   close_game_over_okno()
+  // close_okno_easter_egg()
+  document.getElementById("map").style.display = "block"
+  pytanie.style.display = "flex"
+  document.getElementById("map2").style.display = "none"
+
   main.style.visibility = "visible"
   menu.style.visibility = "hidden"
   pytanie.innerHTML = ""
-  if (wskazana_liczba_kraji == 51) map.setView(europa_view, 3)
-  else if (wskazana_liczba_kraji == 255) map.setView(all_view, 3)
-  else if (wskazana_liczba_kraji == 50) map.setView(states_view, 3)
-  else if (wskazana_liczba_kraji == 16) map.setView(wojewodztwa_view, 6)
+
+  //ustawienie widoku pod kazdy game mode, kazdy ma inna dlugosc tak je rozpoznuje
+  var dlugosc = zrodlo.features.length
+  if (dlugosc == 51) map.setView(europa_view, 3)
+  else if (dlugosc == 255) map.setView(all_view, 3)
+  else if (dlugosc == 50) map.setView(states_view, 3)
+  else if (dlugosc == 16) map.setView(wojewodztwa_view, 6)
 
   //! losowanie liczb
-  //stworzenie tablicy aaa o dlugosci liczby kraji/stanow
-  //var index = math.floor(math.random()*aaa.length
-  //var item = aaa[index]
-  //aaa.splice(index, 1)
 
+  if (aaa.length == 0) for (var i = 0; i <= wskazana_liczba_kraji - 1; i++) aaa.push(i)
+
+  var index = ranNums.next()
+
+  if (index.done != true) {
+    wylosowany_kraj = zrodlo.features[index.value].properties.NAME
+  } else {
+    close_alert_okno()
+    // open_okno_easter_egg()
+    alert("wygrana")
+    back_to_start()
+  }
   //! budowanie elementow DOM
   function zbuduj_element(name, typ, text, klasa, onclick) {
     name = document.createElement(typ)
@@ -75,13 +104,10 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   //?budowanie elementow pokazujacych informacje
   var back_btn
   zbuduj_element(back_btn, "button", "back to start", "start_btn", "back_to_start()")
-
   var h1
   zbuduj_element(h1, "h1", `where is ${wylosowany_kraj}?`, "wylosowany_kraj", null)
-
   var serca_h1
   zbuduj_element(serca_h1, "h1", `${serca_text}`, "serca", null)
-
   var punkty
   zbuduj_element(punkty, "h1", `🏆correct🏆 ${punkty_text}`, "punkty", null)
 
@@ -96,15 +122,17 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     } else {
       //test czy sa jeszcze zycia
-      // if (serca_text.length == 1) {
-      //   open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
-      //   serca_text = "❤❤❤❤❤"
-      //   punkty_text = 0
-      //   return
-      // }
+      if (serca_text.length == 1) {
+        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
+        serca_text = "❤❤❤❤❤"
+        punkty_text = 0
+        aaa = []
+        return
+      }
       //niepoprawna odp
       open_alert_okno("❌you didn't guess it❌")
       serca_text = serca_text.slice(0, -1)
+      // pokaz_pop_odp(zrodlo, wylosowany_kraj)
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     }
   }
@@ -174,22 +202,23 @@ function open_game_over_okno(err_msg, score_int) {
 function close_game_over_okno() {
   game_over_okno.close()
 }
-//!funkcja losujaca
-//zwraca kolejne losowe liczby bez powtorzen
-function* shuffle(tablica) {
-  var i = tablica.length
-  while (i--) {
-    yield tablica.splice(Math.floor(Math.random() * (i + 1)), 1)[0]
-  }
-}
+//? okno końcowe "easter egg"
+// const okno_easter_egg = document.getElementById("okno_easter_egg")
+// function open_okno_easter_egg() {
+//   console.log("open easter egg ")
+//   okno_easter_egg.showModal()
+// }
+// function close_okno_easter_egg() {
+//   okno_easter_egg.close()
+// }
 //! wybor trybu gry, ustawienie zrodla geojson i liczby kraji/stanow
 
 function wybor(wybor) {
   if (wybor == "europa") {
-    pokaz_europa(europa, 51)
+    pokaz_europa(europa, 44)
     map.setView(europa_view, 3)
   } else if (wybor == "all") {
-    pokaz_europa(kraje_all, 255)
+    pokaz_europa(kraje_all, 195)
     map.setView(all_view, 3)
   } else if (wybor == "states") {
     pokaz_europa(states, 50)
@@ -201,10 +230,13 @@ function wybor(wybor) {
 }
 //! wroc do menu funckja
 function back_to_start() {
+  aaa = []
   close_game_over_okno()
-  main.style.visibility = "hidden"
-  menu.style.visibility = "visible"
-  pytanie.innerHTML = ""
-  serca_text = "❤❤❤❤❤"
-  punkty_text = 0
+  // close_okno_easter_egg()
+  window.location.reload()
+  // main.style.visibility = "hidden"
+  // menu.style.visibility = "visible"
+  // pytanie.innerHTML = ""
+  // serca_text = "❤❤❤❤❤"
+  // punkty_text = 0
 }
