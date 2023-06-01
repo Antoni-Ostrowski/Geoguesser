@@ -23,10 +23,17 @@ L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   className: "mapa",
 }).addTo(map)
 
+var zakazane_indexy = []
 function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   var index = Math.floor(Math.random() * wskazana_liczba_kraji)
-  console.log(index)
+  // console.log(index)
 
+  for (var i = 0; i <= zakazane_indexy.length - 1; i++) {
+    if (zakazane_indexy[i] == index) {
+      index = Math.floor(Math.random() * wskazana_liczba_kraji)
+    }
+  }
+  if (zakazane_indexy.length - 1 == wskazana_liczba_kraji) console.log("koniec")
   // if (aaa.length == 0) {
   //   console.log("koniec")
   //   aaa = []
@@ -37,9 +44,9 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   //   console.log("koniec")
   // }
   wylosowany_kraj = zrodlo.features[index].properties.NAME
-
-  console.log(zrodlo.features[index])
-  zrodlo.features.splice(index, 1)
+  zakazane_indexy.push(index)
+  console.log(`zakazane indexy  ${zakazane_indexy}`)
+  // console.log(zrodlo.features[index])
 
   //ustawienie widoku pod kazdy game mode, kazdy ma inna dlugosc tak je rozpoznuje
   close_game_over_okno()
