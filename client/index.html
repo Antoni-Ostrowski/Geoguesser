@@ -13,13 +13,40 @@
     />
     <link rel="stylesheet" href="style.css" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <script defer src="../geojson_zrodlo/woejwodztwa.js"></script>
+    <script defer src="../geojson_zrodlo/kraje_all.js"></script>
+    <script defer src="../geojson_zrodlo/europa.js"></script>
+    <script defer src="../geojson_zrodlo/states.js"></script>
+    <script defer src="app.js"></script>
   </head>
   <body id="body">
-    <div id="all">
-      <div id="menu">
+    <div id="all" class="flex_center_column">
+      <dialog id="alert_okno">
+        <div id="inside_alert_okno" class="flex_center_column">
+          <h1 id="err"></h1>
+          <button class="start_btn ok_btn" onclick="close_alert_okno()">OK</button>
+        </div>
+      </dialog>
+
+      <dialog id="game_over_okno">
+        <div id="inside_game_over" class="flex_center_column">
+          <h1 style="font-size: 40px">End of the game!</h1>
+
+          <section class="flex_center_column">
+            <h1 id="country_game_over"></h1>
+            <h1 id="score_game_over"></h1>
+          </section>
+
+          <div id="game_over_buttons" class="flex_center_row">
+            <button class="start_btn" onclick="back_to_start()">back to start</button>
+          </div>
+        </div>
+      </dialog>
+
+      <div id="menu" class="flex_center_column">
         <h1 id="title">GEOGUESSER</h1>
         <p id="opis">
-          You are going to see country name and <br />
+          You are going to see name and <br />
           your job is to guess where the country/state is located, ready?
         </p>
         <section style="display: flex; gap: 35px">
@@ -30,58 +57,11 @@
         </section>
       </div>
 
-      <dialog id="alert_okno">
-        <div class="inside_popup_1" id="inside_alert_okno">
-          <h1 id="err"></h1>
-          <button class="start_btn ok_btn" onclick="close_alert_okno()">OK</button>
-        </div>
-      </dialog>
-
-      <!-- <dialog id="okno_easter_egg">
-        <h1>Congratulations, You completed whole game mode!</h1>
-        <button class="start_btn" onclick="back_to_start()">back to start</button>
-      </dialog> -->
-
-      <dialog id="game_over_okno">
-        <div class="inside_popup_1" style="width: 80vw; height: 62vh">
-          <h1 id="h1_game_over">Game Over!</h1>
-
-          <div class="stats">
-            <h1 id="country_game_over"></h1>
-            <h1 id="score_game_over"></h1>
-          </div>
-
-          <div class="btns_game_over">
-            <section>
-              <h1>Give up and go back to lobby</h1>
-              <button class="start_btn" onclick="back_to_start()">back to start</button>
-            </section>
-
-            <section id="Try again, choose game mode, guziki">
-              <h1>Try again, choose game mode</h1>
-              <div class="tryby_gry_game_over">
-                <button class="start_btn" onclick="wybor('europa')">START (europe)</button>
-                <button class="start_btn" onclick="wybor('all')">START (all countries)</button>
-                <button class="start_btn" onclick="wybor('states')">START (us states)</button>
-                <button class="start_btn" onclick="wybor('wojewodztwa')">START (poland)</button>
-              </div>
-            </section>
-          </div>
-        </div>
-      </dialog>
-
-      <div id="main">
-        <!-- <button onclick="pokaz_pop_odp()">fdasfas</button> -->
-        <div id="pytanie"></div>
+      <div id="main" class="flex_center_column">
+        <div id="pytanie" class="flex_center_row"></div>
         <div id="map"></div>
         <div id="map2"></div>
-        <!-- <button id="next_btn" class="start_btn">NEXT</button> -->
       </div>
     </div>
-    <script src="../geojson_zrodlo/woejwodztwa.js"></script>
-    <script src="../geojson_zrodlo/kraje_all.js"></script>
-    <script src="../geojson_zrodlo/europa.js"></script>
-    <script src="../geojson_zrodlo/states.js"></script>
-    <script src="app.js"></script>
   </body>
 </html>

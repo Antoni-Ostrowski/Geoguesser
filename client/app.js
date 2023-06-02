@@ -1,8 +1,8 @@
 //!glowne zmienne
 //?kordy standardowego widoku mapy dla kazdego trybu gry, uzyte linijka 30 i 166 funckja wybor
-const europa_view = [35.43811453375265, 21.054874361484423],
+const europa_view = [52.964686207970026, 21.94101311132203],
   all_view = [35.43811453375265, 21.054874361484423],
-  states_view = [38.0543791860248, -100.89195250492425],
+  states_view = [41.077618404624815, -98.43108795964298],
   wojewodztwa_view = [52.39303121429481, 20.38909401093015]
 var wylosowany_kraj,
   serca_text = "❤❤❤❤❤",
@@ -74,9 +74,9 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
 
   //ustawienie widoku pod kazdy game mode, kazdy ma inna dlugosc tak je rozpoznuje
   var dlugosc = zrodlo.features.length
-  if (dlugosc == 51) map.setView(europa_view, 3)
+  if (dlugosc == 51) map.setView(europa_view, 3.8)
   else if (dlugosc == 255) map.setView(all_view, 3)
-  else if (dlugosc == 50) map.setView(states_view, 3)
+  else if (dlugosc == 50) map.setView(states_view, 4)
   else if (dlugosc == 16) map.setView(wojewodztwa_view, 6)
 
   //! losowanie liczb
@@ -89,9 +89,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     wylosowany_kraj = zrodlo.features[index.value].properties.NAME
   } else {
     close_alert_okno()
-    // open_okno_easter_egg()
-    alert("wygrana")
-    back_to_start()
+    open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score🏆 ${punkty_text}`, zrodlo)
   }
   //! budowanie elementow DOM
   function zbuduj_element(name, typ, text, klasa, onclick) {
@@ -101,7 +99,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     if (onclick != null) name.setAttribute("onclick", `${onclick}`)
     pytanie.appendChild(name)
   }
-  //?budowanie elementow pokazujacych informacje
+  //budowanie elementow pokazujacych informacje
   var back_btn
   zbuduj_element(back_btn, "button", "back to start", "start_btn", "back_to_start()")
   var h1
@@ -119,11 +117,14 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     if (wylosowany_kraj == e.target.feature.properties.NAME) {
       open_alert_okno("✅correct guess!✅")
       punkty_text++
+      if (punkty_text == 16) {
+        open_game_over_okno(`Congrats, You completed whole game!`, `🏆final score🏆 ${punkty_text}`, zrodlo)
+      }
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     } else {
       //test czy sa jeszcze zycia
       if (serca_text.length == 1) {
-        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆correct🏆 ${punkty_text}`)
+        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score🏆 ${punkty_text}`, zrodlo)
         serca_text = "❤❤❤❤❤"
         punkty_text = 0
         aaa = []
@@ -174,9 +175,8 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
 
 //!popup okienko
 //? kod do "alert_okno"
-const okno = document.getElementById("alert_okno")
-const inside = document.getElementById("inside_alert_okno").style
-//? funckje do "alert_okno"
+const okno = document.getElementById("alert_okno"),
+  inside = document.getElementById("inside_alert_okno").style
 function open_alert_okno(err_msg) {
   //show modal pokazuje alert na stronie
   okno.showModal()
@@ -188,31 +188,28 @@ function close_alert_okno() {
   okno.close()
 }
 //? kod do "game_over_okno"
-const game_over_okno = document.getElementById("game_over_okno")
-const country = document.getElementById("country_game_over")
-const score = document.getElementById("score_game_over")
-//? funckje do "game_over_okno"
-function open_game_over_okno(err_msg, score_int) {
+const game_over_okno = document.getElementById("game_over_okno"),
+  country = document.getElementById("country_game_over"),
+  score = document.getElementById("score_game_over")
+function open_game_over_okno(err_msg, score_int, baza) {
   main.style.visibility = "hidden"
   pytanie.innerHTML = ""
   country.innerHTML = err_msg
   score.innerHTML = score_int
+
+  const try_again_btn = document.createElement("button")
+  try_again_btn.setAttribute("id", "try_again_btn")
+  try_again_btn.classList.add("start_btn")
+  try_again_btn.innerHTML = "Play again"
+  try_again_btn.setAttribute("onclick", `pokaz_europa(${JSON.stringify(baza)}, ${baza.features.length})`)
+  document.getElementById("game_over_buttons").appendChild(try_again_btn)
+
   game_over_okno.showModal()
 }
 function close_game_over_okno() {
   game_over_okno.close()
 }
-//? okno końcowe "easter egg"
-// const okno_easter_egg = document.getElementById("okno_easter_egg")
-// function open_okno_easter_egg() {
-//   console.log("open easter egg ")
-//   okno_easter_egg.showModal()
-// }
-// function close_okno_easter_egg() {
-//   okno_easter_egg.close()
-// }
 //! wybor trybu gry, ustawienie zrodla geojson i liczby kraji/stanow
-
 function wybor(wybor) {
   if (wybor == "europa") {
     pokaz_europa(europa, 44)
@@ -232,7 +229,6 @@ function wybor(wybor) {
 function back_to_start() {
   aaa = []
   close_game_over_okno()
-  // close_okno_easter_egg()
   window.location.reload()
   // main.style.visibility = "hidden"
   // menu.style.visibility = "visible"

@@ -8,18 +8,24 @@ body {
 :root {
   /* kit do ciemnego wygladu mapy */
   --map_kit: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
-  /* --blue: #37b8dd; */
   --white: whitesmoke;
   --bg_color: rgba(0, 0, 0, 0.884);
   --hover: #feff01;
 }
-
-#all {
-  background-color: var(--bg_color);
+.flex_center_column {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.flex_center_row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+#all {
+  background-color: var(--bg_color);
   font-family: system-ui;
   height: 100vh;
   width: 100vw;
@@ -27,10 +33,6 @@ body {
 #main {
   height: 100vh;
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   gap: 35px;
   visibility: hidden;
 
@@ -54,11 +56,12 @@ body {
 
   #pytanie {
     width: 90vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     gap: 190px;
-    flex-direction: row;
+
+    .wylosowany_kraj {
+      font-size: 30px;
+      color: var(--white);
+    }
 
     .serca {
       font-size: 45px;
@@ -68,18 +71,10 @@ body {
       font-size: 35px;
       color: var(--white);
     }
-    .wylosowany_kraj {
-      font-size: 30px;
-      color: var(--white);
-    }
   }
 }
 
 #menu {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   gap: 50px;
   width: 50vw;
   position: absolute;
@@ -116,82 +111,39 @@ body {
   border: 5px solid var(--hover);
 }
 
-.inside_popup_1 {
-  background-color: rgba(0, 0, 0, 0.864);
-  color: white;
-  border-radius: 20px;
-  border: 6px solid var(--white);
-  font-family: system-ui;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-direction: column;
-}
-
-.ok_btn {
-  width: 90px;
-}
-/*popup alert okno*/
 #alert_okno {
   background-color: #0000;
   border: 0px;
+
+  #inside_alert_okno {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.864);
+    color: white;
+    border-radius: 20px;
+    border: 6px solid var(--white);
+    font-family: system-ui;
+  }
+  .ok_btn {
+    width: 90px;
+  }
 }
-/* game over popup */
+
 #game_over_okno {
   background-color: #0000;
   border: 0px;
-  position: relative;
 
-  .tryby_gry_game_over {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
+  #inside_game_over {
+    gap: 20px;
+    background-color: rgba(0, 0, 0, 0.864);
+    color: white;
+    border-radius: 20px;
+    border: 6px solid var(--white);
+    font-family: system-ui;
+    padding: 15px;
+    width: 50vw;
+    height: 45vh;
+  }
+  #game_over_buttons {
     gap: 20px;
   }
-  .btns_game_over {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    gap: 100px;
-    position: absolute;
-    bottom: 180px;
-  }
-  .stats {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    gap: 100px;
-    position: absolute;
-    top: 290px;
-    font-size: 20px;
-  }
-  #h1_game_over {
-    position: absolute;
-    top: 60px;
-    font-size: 60px;
-  }
-  #inside_alert_okno {
-    width: 22vw;
-    height: 22vh;
-  }
 }
-/* easeter egg */
-/* #okno_easter_egg {
-  background-color: rgba(0, 0, 0, 0.864);
-  color: white;
-  border-radius: 20px;
-  border: 6px solid var(--white);
-  font-family: system-ui;
-  width: 60vw;
-  height: 50vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 50px;
-} */
