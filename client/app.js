@@ -90,7 +90,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   if (index.done != true) wylosowany_kraj = zrodlo.features[index.value].properties.NAME
   else {
     close_alert_okno()
-    open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score(koniec kraji)🏆 ${punkty_text}`, zrodlo, "no again")
+    open_game_over_okno(``, `🏆final score🏆 ${punkty_text}`)
   }
   //! budowanie elementow DOM, div pytanie
   function zbuduj_element(name, typ, text, klasa, onclick) {
@@ -122,7 +122,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     } else {
       //test czy sa jeszcze zycia
       if (serca_text.length == 1) {
-        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score(koniec serc)🏆 ${punkty_text}`, zrodlo, "again")
+        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score🏆 ${punkty_text}`)
         serca_text = "❤❤❤❤❤"
         punkty_text = 0
         aaa = []
@@ -191,7 +191,7 @@ const game_over_okno = document.getElementById("game_over_okno"),
   country = document.getElementById("country_game_over"),
   score = document.getElementById("score_game_over"),
   game_over_buttons = document.getElementById("game_over_buttons")
-function open_game_over_okno(err_msg, score_int, baza, again) {
+function open_game_over_okno(err_msg, score_int) {
   main.style.visibility = "hidden"
   pytanie.innerHTML = ""
   country.innerHTML = err_msg
@@ -199,26 +199,11 @@ function open_game_over_okno(err_msg, score_int, baza, again) {
 
   game_over_buttons.innerHTML = ""
 
-  if (again == "again") {
-    const back_btn = document.createElement("button")
-    back_btn.classList.add("start_btn")
-    back_btn.innerHTML = "back to start"
-    back_btn.setAttribute("onclick", "back_to_start()")
-    game_over_buttons.appendChild(back_btn)
-
-    const try_again_btn = document.createElement("button")
-    try_again_btn.setAttribute("id", "try_again_btn")
-    try_again_btn.classList.add("start_btn")
-    try_again_btn.innerHTML = "Play again"
-    try_again_btn.setAttribute("onclick", `pokaz_europa(${JSON.stringify(baza)}, ${baza.features.length})`)
-    game_over_buttons.appendChild(try_again_btn)
-  } else if (again == "no again") {
-    const back_btn = document.createElement("button")
-    back_btn.classList.add("start_btn")
-    back_btn.innerHTML = "back to start"
-    back_btn.setAttribute("onclick", "back_to_start()")
-    game_over_buttons.appendChild(back_btn)
-  }
+  const back_btn = document.createElement("button")
+  back_btn.classList.add("start_btn")
+  back_btn.innerHTML = "back to start"
+  back_btn.setAttribute("onclick", "back_to_start()")
+  game_over_buttons.appendChild(back_btn)
 
   game_over_okno.showModal()
 }
