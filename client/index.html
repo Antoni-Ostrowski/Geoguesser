@@ -24,7 +24,17 @@
       <dialog id="alert_okno">
         <div id="inside_alert_okno" class="flex_center_column">
           <h1 id="err"></h1>
-          <button class="start_btn ok_btn" onclick="close_alert_okno()">OK</button>
+          <button class="ok_btn" onclick="close_alert_okno()">OK</button>
+        </div>
+      </dialog>
+
+      <dialog id="odp_okno">
+        <div id="inside_odp_okno" class="flex_center_column">
+          <h1 id="name_odp"></h1>
+
+          <div id="map2"></div>
+
+          <button class="start_btn ok_odp_btn" onclick="close_okp_okno()">OK</button>
         </div>
       </dialog>
 
@@ -60,7 +70,6 @@
       <div id="main" class="flex_center_column">
         <div id="pytanie" class="flex_center_row"></div>
         <div id="map"></div>
-        <div id="map2"></div>
       </div>
     </div>
   </body>
