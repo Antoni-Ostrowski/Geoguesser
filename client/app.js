@@ -90,7 +90,7 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   if (index.done != true) wylosowany_kraj = zrodlo.features[index.value].properties.NAME
   else {
     close_alert_okno()
-    open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score🏆 ${punkty_text}`, zrodlo)
+    open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score(koniec kraji)🏆 ${punkty_text}`, zrodlo, "no again")
   }
   //! budowanie elementow DOM, div pytanie
   function zbuduj_element(name, typ, text, klasa, onclick) {
@@ -118,21 +118,17 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     if (wylosowany_kraj == e.target.feature.properties.NAME) {
       open_alert_okno("correct guess!")
       punkty_text++
-      if (punkty_text == 16) {
-        open_game_over_okno(`Congrats, You completed whole game!`, `🏆final score🏆 ${punkty_text}`, zrodlo)
-      }
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
     } else {
       //test czy sa jeszcze zycia
       if (serca_text.length == 1) {
-        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score🏆 ${punkty_text}`, zrodlo)
+        open_game_over_okno(`You lost on ${wylosowany_kraj}`, `🏆final score(koniec serc)🏆 ${punkty_text}`, zrodlo, "again")
         serca_text = "❤❤❤❤❤"
         punkty_text = 0
         aaa = []
         return
       }
       //niepoprawna odp
-      //?open_alert_okno("❌you didn't guess it❌")
       pokaz_odp_okno(zrodlo, wylosowany_kraj)
       serca_text = serca_text.slice(0, -1)
       pokaz_europa(zrodlo, wskazana_liczba_kraji)
@@ -193,19 +189,36 @@ function close_alert_okno() {
 //! okno do GAME OVER ↓↓↓
 const game_over_okno = document.getElementById("game_over_okno"),
   country = document.getElementById("country_game_over"),
-  score = document.getElementById("score_game_over")
-function open_game_over_okno(err_msg, score_int, baza) {
+  score = document.getElementById("score_game_over"),
+  game_over_buttons = document.getElementById("game_over_buttons")
+function open_game_over_okno(err_msg, score_int, baza, again) {
   main.style.visibility = "hidden"
   pytanie.innerHTML = ""
   country.innerHTML = err_msg
   score.innerHTML = score_int
 
-  const try_again_btn = document.createElement("button")
-  try_again_btn.setAttribute("id", "try_again_btn")
-  try_again_btn.classList.add("start_btn")
-  try_again_btn.innerHTML = "Play again"
-  try_again_btn.setAttribute("onclick", `pokaz_europa(${JSON.stringify(baza)}, ${baza.features.length})`)
-  document.getElementById("game_over_buttons").appendChild(try_again_btn)
+  game_over_buttons.innerHTML = ""
+
+  if (again == "again") {
+    const back_btn = document.createElement("button")
+    back_btn.classList.add("start_btn")
+    back_btn.innerHTML = "back to start"
+    back_btn.setAttribute("onclick", "back_to_start()")
+    game_over_buttons.appendChild(back_btn)
+
+    const try_again_btn = document.createElement("button")
+    try_again_btn.setAttribute("id", "try_again_btn")
+    try_again_btn.classList.add("start_btn")
+    try_again_btn.innerHTML = "Play again"
+    try_again_btn.setAttribute("onclick", `pokaz_europa(${JSON.stringify(baza)}, ${baza.features.length})`)
+    game_over_buttons.appendChild(try_again_btn)
+  } else if (again == "no again") {
+    const back_btn = document.createElement("button")
+    back_btn.classList.add("start_btn")
+    back_btn.innerHTML = "back to start"
+    back_btn.setAttribute("onclick", "back_to_start()")
+    game_over_buttons.appendChild(back_btn)
+  }
 
   game_over_okno.showModal()
 }
