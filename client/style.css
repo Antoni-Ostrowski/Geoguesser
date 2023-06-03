@@ -51,152 +51,150 @@ body {
   font-family: system-ui;
   height: 100vh;
   width: 100vw;
+}
+#menu {
+  gap: 50px;
+  width: 50vw;
+  position: absolute;
 
-  #menu {
-    gap: 50px;
-    width: 50vw;
-    position: absolute;
+  #opis {
+    font-size: 25px;
+    text-align: center;
+    color: var(--white);
+  }
+  #title {
+    font-size: 90px;
+    letter-spacing: 4px;
+    color: var(--white);
+    margin: 0px;
+  }
+}
 
-    #opis {
-      font-size: 25px;
-      text-align: center;
+#main {
+  height: 100vh;
+  width: 100vw;
+  gap: 35px;
+  visibility: hidden;
+
+  #pytanie {
+    width: 90vw;
+    gap: 190px;
+
+    .wylosowany_kraj {
+      font-size: 30px;
       color: var(--white);
     }
-    #title {
-      font-size: 90px;
-      letter-spacing: 4px;
+
+    .serca {
+      font-size: 45px;
       color: var(--white);
-      margin: 0px;
+    }
+    .punkty {
+      font-size: 35px;
+      color: var(--white);
     }
   }
 
-  #main {
-    height: 100vh;
-    width: 100vw;
-    gap: 35px;
-    visibility: hidden;
+  #map {
+    border: 8px solid var(--white);
+    border-radius: 15px;
+    width: 85vw;
+    height: 75vh;
+  }
+}
+#alert_okno {
+  background-color: #0000;
+  border: 0px;
 
-    #alert_okno {
-      background-color: #0000;
-      border: 0px;
+  .ok_btn {
+    width: 90px;
+    height: 60px;
+    border-radius: 10px;
+    font-size: 22px;
+    padding: 5px;
+    cursor: pointer;
+    background-color: #0000;
+    color: lightgreen;
+    border: 5px solid lightgreen;
+    font-family: system-ui;
+    font-weight: bold;
+    transition: color ease, border ease;
+  }
+  .ok_btn:hover {
+    color: var(--hover);
+    border: 5px solid var(--hover);
+  }
 
-      .ok_btn {
-        width: 90px;
-        height: 60px;
-        border-radius: 10px;
-        font-size: 22px;
-        padding: 5px;
-        cursor: pointer;
-        background-color: #0000;
-        color: lightgreen;
-        border: 5px solid lightgreen;
-        font-family: system-ui;
-        font-weight: bold;
-        transition: color ease, border ease;
-      }
-      .ok_btn:hover {
-        color: var(--hover);
-        border: 5px solid var(--hover);
-      }
+  #inside_alert_okno {
+    padding: 25px;
+    background-color: rgba(0, 0, 0, 0.864);
+    color: white;
+    border-radius: 20px;
+    border: 6px solid var(--white);
+    font-family: system-ui;
+    width: 15vw;
+  }
+}
 
-      #inside_alert_okno {
-        padding: 25px;
-        background-color: rgba(0, 0, 0, 0.864);
-        color: white;
-        border-radius: 20px;
-        border: 6px solid var(--white);
-        font-family: system-ui;
-        width: 15vw;
-      }
-    }
+#odp_okno {
+  background-color: #0000;
+  border: 0px;
 
-    #odp_okno {
-      background-color: #0000;
-      border: 0px;
+  #inside_odp_okno {
+    padding: 20px;
+    gap: 20px;
+    background-color: black;
+    color: white;
+    border-radius: 20px;
+    border: 6px solid var(--white);
+    font-family: system-ui;
+    width: 90vw;
+    height: 87vh;
+  }
 
-      #inside_odp_okno {
-        padding: 20px;
-        gap: 20px;
-        background-color: black;
-        color: white;
-        border-radius: 20px;
-        border: 6px solid var(--white);
-        font-family: system-ui;
-        width: 90vw;
-        height: 87vh;
-      }
+  #map2 {
+    border: 8px solid red;
+    border-radius: 15px;
+    width: 85vw;
+    height: 75vh;
+  }
 
-      #map2 {
-        border: 8px solid red;
-        border-radius: 15px;
-        width: 85vw;
-        height: 75vh;
-      }
+  .ok_odp_btn {
+    width: 90px;
+    height: 60px;
+    border-radius: 10px;
+    font-size: 22px;
+    padding: 5px;
+    cursor: pointer;
+    background-color: #0000;
+    color: red;
+    border: 5px solid red;
+    font-family: system-ui;
+    font-weight: bold;
+    transition: color ease, border ease;
+  }
+  .ok_odp_btn:hover {
+    color: var(--hover);
+    border: 5px solid var(--hover);
+  }
+}
 
-      .ok_odp_btn {
-        width: 90px;
-        height: 60px;
-        border-radius: 10px;
-        font-size: 22px;
-        padding: 5px;
-        cursor: pointer;
-        background-color: #0000;
-        color: red;
-        border: 5px solid red;
-        font-family: system-ui;
-        font-weight: bold;
-        transition: color ease, border ease;
-      }
-      .ok_odp_btn:hover {
-        color: var(--hover);
-        border: 5px solid var(--hover);
-      }
-    }
+#game_over_okno {
+  background-color: #0000;
+  border: 0px;
 
-    #game_over_okno {
-      background-color: #0000;
-      border: 0px;
-
-      #inside_game_over {
-        gap: 20px;
-        background-color: rgba(0, 0, 0, 0.864);
-        color: white;
-        border-radius: 20px;
-        border: 6px solid var(--white);
-        font-family: system-ui;
-        padding: 15px;
-        width: 50vw;
-        height: 45vh;
-      }
-      #game_over_buttons {
-        gap: 20px;
-      }
-    }
-
-    #pytanie {
-      width: 90vw;
-      gap: 190px;
-
-      .wylosowany_kraj {
-        font-size: 30px;
-        color: var(--white);
-      }
-
-      .serca {
-        font-size: 45px;
-        color: var(--white);
-      }
-      .punkty {
-        font-size: 35px;
-        color: var(--white);
-      }
-    }
-
-    #map {
-      border: 8px solid var(--white);
-      border-radius: 15px;
-      width: 85vw;
-      height: 75vh;
-    }
+  #inside_game_over {
+    gap: 20px;
+    background-color: rgba(0, 0, 0, 0.864);
+    color: white;
+    border-radius: 20px;
+    border: 6px solid var(--white);
+    font-family: system-ui;
+    padding: 15px;
+    width: 50vw;
+    height: 45vh;
+  }
+  #game_over_buttons {
+    gap: 20px;
   }
 }
