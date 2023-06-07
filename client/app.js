@@ -92,23 +92,8 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
     close_alert_okno()
     open_game_over_okno(``, `🏆final score🏆 ${punkty_text}`)
   }
-  //! budowanie elementow DOM, div pytanie
-  function zbuduj_element(name, typ, text, klasa, onclick) {
-    name = document.createElement(typ)
-    name.classList.add(klasa)
-    if (text != null) name.innerHTML = text
-    if (onclick != null) name.setAttribute("onclick", `${onclick}`)
-    pytanie.appendChild(name)
-  }
-  //budowanie elementow pokazujacych informacje
-  var back_btn
-  zbuduj_element(back_btn, "button", "back to start", "start_btn", "back_to_start()")
-  var h1
-  zbuduj_element(h1, "h1", `where is ${wylosowany_kraj}?`, "wylosowany_kraj", null)
-  var serca_h1
-  zbuduj_element(serca_h1, "h1", `${serca_text}`, "serca", null)
-  var punkty
-  zbuduj_element(punkty, "h1", `🏆correct🏆 ${punkty_text}`, "punkty", null)
+  // //! budowanie elementow DOM, div pytanie
+  zbuduj_wszystkie_staty(wylosowany_kraj, serca_text, punkty_text)
 
   //! dodanie do mapy krajow i kontrola co sie dzieje przy "eventach" myszki
   var geojson
@@ -170,6 +155,27 @@ function pokaz_europa(zrodlo, wskazana_liczba_kraji) {
   }).addTo(map)
 }
 //!glowna funkcja ↑↑↑
+
+//! budowanie elementow DOM, div pytanie
+function zbuduj_wszystkie_staty(wylosowany_kraj, serca_text, punkty_text) {
+  //! budowanie elementow DOM, div pytanie
+  function zbuduj_element(name, typ, text, klasa, onclick) {
+    name = document.createElement(typ)
+    name.classList.add(klasa)
+    if (text != null) name.innerHTML = text
+    if (onclick != null) name.setAttribute("onclick", `${onclick}`)
+    pytanie.appendChild(name)
+  }
+  //budowanie elementow pokazujacych informacje
+  var back_btn
+  zbuduj_element(back_btn, "button", "back to start", "start_btn", "back_to_start()")
+  var h1
+  zbuduj_element(h1, "h1", `where is ${wylosowany_kraj}?`, "wylosowany_kraj", null)
+  var serca_h1
+  zbuduj_element(serca_h1, "h1", `${serca_text}`, "serca", null)
+  var punkty
+  zbuduj_element(punkty, "h1", `🏆correct🏆 ${punkty_text}`, "punkty", null)
+}
 
 //! okno po poprawnej odpowiedzi ↓↓↓
 const okno = document.getElementById("alert_okno"),
