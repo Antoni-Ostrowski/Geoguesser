@@ -31,6 +31,8 @@ L.tileLayer("http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   className: "mapa",
 }).addTo(map2)
+
+document.getElementById("odp_okno").style.display = "none"
 //! deklaracje map, zrodel,  ↑↑↑
 //! globalnie uzywane funkcje ↓↓↓
 function ustaw_widok(zrodlo, mapa) {
@@ -246,9 +248,11 @@ function pokaz_odp_okno(zrodlo, kraj_cel) {
   ustaw_widok(zrodlo, map2)
 
   name_odp.innerHTML = `correct answer: ${kraj_cel}`
-  odp_okno.showModal()
+  main.style.display = "none"
+  odp_okno.style.display = "flex"
 }
 function close_okp_okno() {
-  odp_okno.close()
+  main.style.display = "flex"
+  odp_okno.style.display = "none"
 }
 //! okno okno po niepoprawnej odpowiedzi ↑↑↑
